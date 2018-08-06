@@ -30,6 +30,7 @@ class VerticalAltTriPointStage {
                     this.render()
                     this.vatp.update(() => {
                         this.animator.stop()
+                        this.render()
                     })
                 })
             })
@@ -122,6 +123,9 @@ class VATPNode {
         context.lineTo(hGap * factor * sc1, hGap * sc1)
         context.stroke()
         context.restore()
+        if (this.next) {
+            this.next.draw(context)
+        }
     }
 
     update(cb : Function) {
