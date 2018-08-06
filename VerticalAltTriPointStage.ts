@@ -3,6 +3,9 @@ const nodes : number = 5
 class VerticalAltTriPointStage {
     canvas : HTMLCanvasElement = document.createElement('canvas')
     context : CanvasRenderingContext2D
+    vatp : LinkedVATP = new LinkedVATP()
+    animator : Animator = new Animator()
+
     constructor() {
         this.initCanvas()
     }
@@ -17,11 +20,19 @@ class VerticalAltTriPointStage {
     render() {
         this.context.fillStyle = '#212121'
         this.context.fillRect(0, 0, w, h)
+        this.vatp.draw(this.context)
     }
 
     handleTap() {
         this.canvas.onmousedown = () => {
-
+            this.vatp.startUpdating(() => {
+                this.animator.start(() => {
+                    this.render()
+                    this.vatp.update(() => {
+                        this.animator.stop()
+                    })
+                })
+            })
         }
     }
 
